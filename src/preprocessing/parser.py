@@ -1,5 +1,6 @@
 from typing import Dict
 import pandas as pd
+from tqdm import tqdm
 class Parser:
     def __init__(
         self, 
@@ -19,20 +20,20 @@ class Parser:
 
         with open(self.filename, 'r') as file:
             n,k = 0,0
-            for idx, line in enumerate(file):
+            for idx, line in tqdm(enumerate(file)):
                 numbers = [float(valor) for valor in line.split()]
 
                 if idx >= 4:
 
-                    if k == K:
+                    if k == self.K:
                         k = 0
 
                         n+=1
-                        if n == N:
+                        if n == self.N:
                             n = 0
 
 
-                    for m in range(M):
+                    for m in range(self.M):
                         key = tuple([k,m])
 
                         if self.data[n].get(key) is None:
@@ -43,17 +44,17 @@ class Parser:
                     k+=1
 
                 elif idx == 0:
-                    N = int(numbers[0])
+                    self.N = int(numbers[0])
 
                 elif idx == 1:  
-                    M = int(numbers[0])
+                    self.M = int(numbers[0])
 
                 elif idx == 2:
-                    K = int(numbers[0])
+                    self.K = int(numbers[0])
                 
                 else: #if idx == 3
-                    p = numbers[0]
-                    for i in range(N):
+                    self.p = numbers[0]
+                    for i in range(self.N):
                         self.data[i] = {}
 
 
