@@ -42,17 +42,23 @@ class Solution:
     ):
         k_1, m_1, p_1, r_1, _ = self.__solution[n]
 
-        Lambda = self.__remaining_power_budget/(p_kmn - p_1)
+        if p_kmn == p_1:
+            
+            pass
 
-        self.__solution[n] = [
-            [k_1, m_1, p_1, r_1, f"x_{k},{m},{n} = {1-Lambda}"], 
-            [k, m, p_kmn, r_kmn, f"x_{k},{m},{n} = {Lambda}"]
-        ]
 
-        self.consume_power_budget((p_kmn - p_1)*Lambda)
-        self.add_data_rate((r_kmn- r_1)*Lambda)
+        else:    
+            Lambda = self.__remaining_power_budget/(p_kmn - p_1)
 
-        self.__fractional_allocation = True
+            self.__solution[n] = [
+                [k_1, m_1, p_1, r_1, f"x_{k},{m},{n} = {1-Lambda}"], 
+                [k, m, p_kmn, r_kmn, f"x_{k},{m},{n} = {Lambda}"]
+            ]
+
+            self.consume_power_budget((p_kmn - p_1)*Lambda)
+            self.add_data_rate((r_kmn- r_1)*Lambda)
+
+            self.__fractional_allocation = True
 
     def has_fractional_allocation(self):
         return self.__fractional_allocation
@@ -80,6 +86,14 @@ class Solution:
 
     def add_data_rate(self, value : float):
         self.__data_rate+= value
+
+    def reset_data_rate(self):
+        self.__init__(
+            self.K,
+            self.M,
+            self.N,
+            self.p,
+        )
 
 
         
