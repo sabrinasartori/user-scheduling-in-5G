@@ -186,7 +186,9 @@ class Preprocessor:
                     if idx1 == 0:
                         idx2 = idx3
                         idx3 +=1
-
+                        
+                        if idx3 >= len(dataset[n]):
+                            continue
                         l = dataset[n].iloc[idx3]
                         while tuple((l.k, l.m, l.n)) in lp_dominated:
                             idx3+=1
@@ -218,8 +220,6 @@ class Preprocessor:
                         if idx3 >= len(dataset[n]):
                             continue
                         l = dataset[n].iloc[idx3]
-
-        print(len(lp_dominated))
 
         for (k,m,n) in lp_dominated:
 
