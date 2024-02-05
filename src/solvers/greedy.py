@@ -15,9 +15,6 @@ class GreedySolver(BaseSolver):
     ) -> None:
         super().__init__(K, M, N, p, data)
 
-
-
-
     def solve(self, data):
         
         for n in range(self.N):
@@ -82,8 +79,9 @@ class GreedySolver(BaseSolver):
             
             else: 
                 break
-
+        
         p_remaining = self.solution.get_remaining_power_budget()
+
         if p_remaining == 0:
             return 
         
