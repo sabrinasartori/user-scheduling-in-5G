@@ -2,6 +2,11 @@ from abc import ABC, abstractmethod
 from typing import Dict, List, Union
 import pandas as pd
 from src.solvers.solution import Solution
+from enum import Enum
+
+class DPMethods(Enum):
+    MAXIMIZE_R = 1
+    MINIMIZE_P = 2
 
 class BaseSolver(ABC):
     def __init__(
@@ -55,5 +60,24 @@ class BaseSolver(ABC):
 
         Args:
             data (_type_): _description_
+            method (str): only used for DP solver
+        """        
+        ...
+
+    
+    @abstractmethod
+    def solve(
+        self, 
+        data, 
+        method : DPMethods, 
+        U : int = None
+    ):
+        """Solves LP problems with dynamic programming
+
+        Args:
+            data (_type_): _description_
+            method (DPMethods): method chosen
+            U (int, optional): if using method MINIMIZE_P must set 
+                an upper bound U. Defaults to None.
         """        
         ...
