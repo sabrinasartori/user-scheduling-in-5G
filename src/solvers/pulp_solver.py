@@ -15,6 +15,8 @@ class PuLPSolver(BaseSolver):
     ) -> None:
         super().__init__(K, M, N, p, data)
         self.solution : LpProblem= LpProblem("UserScheduling", LpMaximize)
+
+        self.set_problem(data)
         
     def set_problem(self, data):
 
