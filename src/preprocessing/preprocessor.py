@@ -93,64 +93,6 @@ class Preprocessor:
 
             new_dataset[n] = sorted_by_power
         return new_dataset
-    
-    # def remove_lp_dominated(self, dataset ) -> Dict[int, pd.DataFrame]:
-    #     """Remove lp dominated terms
-
-    #     Args:
-    #         dataset (_type_): _description_
-
-    #     Returns:
-    #         Dict[int, pd.DataFrame]: _description_
-    #     """        
-    #     for n in tqdm(range(self.N)):
-
-    #         if len(dataset[n]) <= 2:
-    #             continue
-    #         l1 = dataset[n].iloc[0]
-    #         r1 = l1['r_k,m,n']
-    #         p1 = l1['p_k,m,n']
-
-    #         dataset[n]['rp_ratio'] = (dataset[n]['r_k,m,n'] - r1)/(dataset[n]['p_k,m,n']  - p1) 
-
-    #         # sorted_by_ratio : pd.DataFrame = df[n].sort_values(by = "rp_ratio")
-
-    #         convex_hull = [pd.DataFrame(l1).T]
-    #         for (idx, row) in dataset[n].iterrows():
-    #             if idx == l1.name: 
-    #                 continue
-                
-    #             if len(convex_hull ) <= 1:
-    #                 convex_hull.append(pd.DataFrame(row).T)
-    #                 continue
-                
-    #             l_1  = convex_hull[-1]
-    #             r_1 = l_1['r_k,m,n'].item()
-    #             p_1 = l_1['p_k,m,n'].item()
-
-    #             l_2 = convex_hull[-2]
-    #             r_2 = l_2['r_k,m,n'].item()
-    #             p_2 = l_2['p_k,m,n'].item()
-
-    #             r = row['r_k,m,n'].item()
-    #             p = row['p_k,m,n'].item()
-
-    #             while (r_1 - r) * (p_2 - p_1) >= (r_2 - r_1) * (p_1 - p) and len(convex_hull) > 2:
-    #                 convex_hull.pop()
-
-    #                 l_1  = convex_hull[-1]
-    #                 r_1 = l_1['r_k,m,n'].item()
-    #                 p_1 = l_1['p_k,m,n'].item()
-
-    #                 l_2 = convex_hull[-2]
-    #                 r_2 = l_2['r_k,m,n'].item()
-    #                 p_2 = l_2['p_k,m,n'].item()
-
-                
-    #             convex_hull.append(pd.DataFrame(row).T)
-
-    #         dataset[n] = pd.concat(convex_hull)
-    #     return dataset
 
     def remove_lp_dominated(self, df):
         lp_dominated=  set([])
