@@ -35,6 +35,7 @@ pyparsing==3.1.1
 python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
 pytz==2023.4
 pyzmq @ file:///home/conda/feedstock_root/build_artifacts/pyzmq_1701783162207/work
+seaborn==0.13.2
 setuptools==69.0.3
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
 stack-data @ file:///home/conda/feedstock_root/build_artifacts/stack_data_1669632077133/work
