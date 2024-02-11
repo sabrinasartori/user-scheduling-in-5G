@@ -31,7 +31,7 @@ Each method is implemented and evaluated in terms of its effectiveness and effic
 │   ├── preprocessing      # Classes for the reader and preprocessing
 │   ├── solvers            # Classes for all different solvers
 ├── requirements.txt       # Requirements file 
-└── ...
+└── 
 ```
 
 ## Requirements
