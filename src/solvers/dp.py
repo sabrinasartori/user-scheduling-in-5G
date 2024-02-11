@@ -36,7 +36,7 @@ class DPSolver(BaseSolver):
         
     def DP1(self):
 
-        memo = dict()
+        R = dict()
         
 
         for idx, row in self.data[0].iterrows():
@@ -46,34 +46,34 @@ class DPSolver(BaseSolver):
             
             if p_kmn <= self.p: 
 
-                memo[tuple((0, p_kmn))] = r_kmn
+                R[tuple((0, p_kmn))] = r_kmn
 
         
         for n in range(1,self.N):
-            new_values = {}
+            R_1 = {}
             for idx, row in self.data[n].iterrows():
                 
                 r_kmn = row['r_k,m,n']
                 p_kmn = row['p_k,m,n']
 
-                for (n,p), r in memo.items(): 
+                for (n,p), r in R.items(): 
 
                     if p + p_kmn > self.p:
                         continue
 
                     key = tuple((n-1, p + p_kmn))
 
-                    if new_values.get(key) is not None:
-                        new_values[key] = max(r + r_kmn, new_values[key])
+                    if R_1.get(key) is not None:
+                        R_1[key] = max(r + r_kmn, R_1[key])
                     
                     else:
-                        new_values[key] = r + r_kmn
-            memo = new_values       
+                        R_1[key] = r + r_kmn
+            R = R_1       
 
-        self.solution.add_data_rate( max(memo.values()))
+        self.solution.add_data_rate( max(R.values()))
     
     def DP2(self, U : int):
-        memo = {}
+        P = {}
 
         for idx, row in self.data[0].iterrows():
             
@@ -81,16 +81,16 @@ class DPSolver(BaseSolver):
 
             key = tuple((0, r_kmn))
             if r_kmn <= U:
-                memo[key] = p_kmn
+                P[key] = p_kmn
 
         for n in range(1,self.N):
-            new_items = {}
+            P_1 = {}
             for idx, row in self.data[n].iterrows():
             
                 r_kmn = row['r_k,m,n']
                 p_kmn = row['p_k,m,n']
 
-                for key, p in memo.items():
+                for key, p in P.items():
 
                     r = key[1]
 
@@ -99,15 +99,15 @@ class DPSolver(BaseSolver):
                         
                         # if there exists another n, (r+r_kmn) key
 
-                        if new_items.get(t) is not None:
-                            new_items[t] = min(p + p_kmn, new_items[t])
+                        if P_1.get(t) is not None:
+                            P_1[t] = min(p + p_kmn, P_1[t])
                         else:
-                            new_items[t] = p + p_kmn
-            memo = new_items
+                            P_1[t] = p + p_kmn
+            P = P_1
         
         # return maximal r
         r_max = -1
-        for key, p in memo.items():
+        for key, p in P.items():
             if key[0] != self.N-1:
                 continue
 
