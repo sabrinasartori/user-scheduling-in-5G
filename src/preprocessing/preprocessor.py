@@ -54,7 +54,7 @@ class Preprocessor:
         and a lower data rate
 
         Returns:
-            Dict[int, pd.DataFrame]: _description_
+            Dict[int, pd.DataFrame]: Remaining dataset with non IP-dominated triples
         """        
         new_dataset = {}
         for n in tqdm(range(self.N)):
@@ -95,6 +95,15 @@ class Preprocessor:
         return new_dataset
 
     def remove_lp_dominated(self, df):
+        """Remove LP dominated triples and returns 
+        the remaining dataset
+
+        Args:
+            df : data points 
+
+        Returns:
+            Remaining dataset with non LP-dominated triples
+        """        
         lp_dominated=  set([])
 
         dataset = deepcopy(df)

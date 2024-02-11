@@ -40,6 +40,7 @@ class Solution:
         p_kmn : float,
         r_kmn : float
     ):
+        
         k_1, m_1, p_1, r_1, _ = self.__solution[n]
 
         if p_kmn == p_1:
@@ -73,9 +74,19 @@ class Solution:
         return self.__solution[n]
 
     def get_remaining_power_budget(self):
+        """Return remaining power budget
+
+        Returns:
+            float: remaining power budget
+        """        
         return self.__remaining_power_budget
     
     def get_data_rate(self):
+        """Return obtained data rate
+
+        Returns:
+            float: obtained data rate
+        """
         return self.__data_rate
     
     def consume_power_budget(self, value : float):

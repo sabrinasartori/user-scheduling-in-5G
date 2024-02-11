@@ -35,6 +35,9 @@ class DPSolver(BaseSolver):
             return self.DP2(U)
         
     def DP1(self):
+        """Implementation that solves the ILP with 
+        the method that maximizes R
+        """        
 
         R = dict()
         
@@ -73,6 +76,11 @@ class DPSolver(BaseSolver):
         self.solution.add_data_rate( max(R.values()))
     
     def DP2(self, U : int):
+        """Implementation of the greedy algorithm that minimizes P
+
+        Args:
+            U (int): maximum data rate
+        """        
         P = {}
 
         for idx, row in self.data[0].iterrows():

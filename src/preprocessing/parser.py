@@ -2,6 +2,8 @@ from typing import Dict
 import pandas as pd
 from tqdm import tqdm
 class Parser:
+    """Reads and parse raw files in the given format (K, M, N)
+    """    
     def __init__(
         self, 
         filename: str
@@ -10,6 +12,11 @@ class Parser:
         self.filename = filename
 
     def read(self):
+        """Reads dataset from the provided filename
+
+        Returns:
+            Dict: Information about the dataset
+        """        
         
         self.M : int = None
         self.N : int = None

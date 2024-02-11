@@ -38,6 +38,13 @@ class PuLPSolver(BaseSolver):
         data, 
         n0 : int = 0,
     ):
+        """Set variable problems on the PuLP 
+        format
+
+        Args:
+            data : data points k,m,n, p_kmn, r_kmn
+            n0 (int, optional): Suppose the problem is solved until the channel n0. Defaults to 0.
+        """        
 
         vars = []
         self.__variables = {}
