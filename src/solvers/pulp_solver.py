@@ -11,22 +11,42 @@ class PuLPSolver(BaseSolver):
         M: int, 
         N: int, 
         p: float, 
-        data: Dict[int, DataFrame]
+        data: Dict[int, DataFrame],
+        n0: int = 0,
     ) -> None:
         super().__init__(K, M, N, p, data)
         self.solution : LpProblem= LpProblem("UserScheduling", LpMaximize)
+        self.n0 = n0
 
-        self.set_problem(data)
+        self.set_problem(data, n0)
+
+    def get_variable(
+        self,
+        k : int,
+        m : int,
+        n : int
+    ):
+        if self.__variables.get(f"x_{int(k)},{int(m)},{int(n)}") is None:
+            return None
+        return self.__variables[f"x_{int(k)},{int(m)},{int(n)}"]
         
-    def set_problem(self, data):
+        
+    def set_problem(
+        self, 
+        data, 
+        n0 : int = 0,
+    ):
 
         vars = []
+        self.__variables = {}
         R = []
         P = []
 
         every_channel_allocated_constraint = []
 
         for n in data.keys():
+            if n < n0:
+                continue
             X_n = []
             for idx, row in data[n].iterrows():
                 k = row['k']
@@ -35,6 +55,7 @@ class PuLPSolver(BaseSolver):
                 r_kmn = row['r_k,m,n']
 
                 x = LpVariable(f"x_{int(k)},{int(m)},{int(n)}", 0, 1, None)
+                self.__variables[f"x_{int(k)},{int(m)},{int(n)}"] = x
                 
                 X_n.append(x)
                 vars.append(x)
@@ -47,8 +68,8 @@ class PuLPSolver(BaseSolver):
 
 
 
-        objective = lpSum([R[i] * vars[i] for i in range(len(vars))])
-        constraint_power_budget = lpSum([P[i] * vars[i] for i in range(len(vars))])
+        objective = lpSum([R[i] * vars[i] for i in range(n0, len(vars))])
+        constraint_power_budget = lpSum([P[i] * vars[i] for i in range(n0, len(vars))])
 
         self.solution += objective, "objective"
         self.solution += constraint_power_budget <= self.p, "power_constraint"
@@ -56,6 +77,9 @@ class PuLPSolver(BaseSolver):
             self.solution += constraint
 
     def solve(self, data = None):
-        self.solution.solve()
+        self.solution.solve(PULP_CBC_CMD(msg=0))
+
+    def get_data_rate(self):
+        return self.solution.objective.value()
 
     

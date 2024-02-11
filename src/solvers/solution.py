@@ -13,8 +13,8 @@ class Solution:
         self.N = N
         self.p = p
         
-        self.__data_rate = 0
-        self.__remaining_power_budget = p
+        self.__data_rate : float = 0
+        self.__remaining_power_budget : float = p
         self.__solution : Dict[int, List] = dict()
         self.__fractional_allocation : bool = False
 
