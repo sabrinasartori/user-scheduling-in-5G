@@ -12,11 +12,13 @@ class PuLPSolver(BaseSolver):
         N: int, 
         p: float, 
         data: Dict[int, DataFrame],
+        ilp : bool = False,
         n0: int = 0,
     ) -> None:
         super().__init__(K, M, N, p, data)
         self.solution : LpProblem= LpProblem("UserScheduling", LpMaximize)
         self.n0 = n0
+        self.ilp = ilp
 
         self.set_problem(data, n0)
 
@@ -54,7 +56,12 @@ class PuLPSolver(BaseSolver):
                 p_kmn = row['p_k,m,n']
                 r_kmn = row['r_k,m,n']
 
-                x = LpVariable(f"x_{int(k)},{int(m)},{int(n)}", 0, 1, None)
+                if self.ilp:
+                    x = LpVariable(f"x_{int(k)},{int(m)},{int(n)}", 0, 1, LpInteger)
+                
+                else:
+                    x = LpVariable(f"x_{int(k)},{int(m)},{int(n)}", 0, 1, None)
+                    
                 self.__variables[f"x_{int(k)},{int(m)},{int(n)}"] = x
                 
                 X_n.append(x)
